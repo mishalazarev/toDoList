@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Список Дел</string>
+    <string name="background_text">Для заметок</string>
+
+    <!-- fill task fragment -->
+    <string name="save_task_button">Сохранить</string>
+    <string name="remove_task_button">Удалить</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Toast offers  -->
+    <string name="task_done">Эта задача уже выполнена</string>
+    <string name="field_empty">Поле уже очищено</string>
+    <string name="remove_task">Задача удалена</string>
+    <!-- decor text -->
+    <string name="tip_back_image_button">Назад</string>
+</resources>
