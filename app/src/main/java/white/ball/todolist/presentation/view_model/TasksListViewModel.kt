@@ -31,8 +31,8 @@ class TasksListViewModel(
         taskService.removeTask(task)
     }
 
-    fun upDateTask(task: Task) {
-        taskService.upDateTask(task)
+    fun upDateTask(isDone: Boolean, newNameTask: String, task: Task) {
+        taskService.upDateTask(isDone, newNameTask, task)
     }
 
     fun refreshDB() {

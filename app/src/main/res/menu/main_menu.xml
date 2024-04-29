@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/back_image_view"
-        android:icon="@drawable/icon_back"
+        android:icon="@drawable/icon_close_default"
         android:title="@string/tip_back_image_button"
         app:showAsAction="ifRoom|withText" />
 </menu>

@@ -18,8 +18,8 @@ class TaskDetailsViewModel(
          currentTask.value = tasksService.getTaskById(idTask).value
     }
 
-    fun saveChangeTask() {
-         tasksService.upDateTask(liveDataToTask(currentTask))
+    fun saveChangeTask(isDone: Boolean, newNameTask: String) {
+         tasksService.upDateTask(isDone ,newNameTask, liveDataToTask(currentTask))
     }
 
     fun removeTask() {

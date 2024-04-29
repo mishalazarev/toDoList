@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import white.ball.todolist.domain.contract.repository.TasksRepository
 import java.util.*
-import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
 typealias TaskListener = (tasksList: List<Task>) -> Unit
 
@@ -18,7 +18,7 @@ class TasksService(
         tasksList = (getTasksList().value as MutableList<Task>?)!!
     }
 
-    fun getTasksList(): LiveData<List<Task>> {
+    private fun getTasksList(): LiveData<List<Task>> {
         return tasksRepository.getTasks()
     }
 
@@ -30,30 +30,33 @@ class TasksService(
     }
 
     fun createTask() {
+        tasksList = ArrayList(tasksList)
         tasksList.add(Task())
         notifyChanges()
     }
 
     fun removeTask(task: Task): Boolean {
         val indexTask = returnIndexTask(task.id)
+        tasksList = ArrayList(tasksList)
         tasksList.removeAt(indexTask)
         notifyChanges()
         return true
     }
 
     fun refreshTaskInDB() {
-            tasksRepository.deleteAllTasks()
-            tasksRepository.insertAllTasks(tasksList)
+        tasksRepository.deleteAllTasks()
+        tasksRepository.insertAllTasks(tasksList)
     }
 
     private fun returnIndexTask(id: UUID): Int {
         return tasksList.indexOfLast { it.id == id }
     }
 
-
-    fun upDateTask(task: Task) {
-        val indexTask = returnIndexTask(task.id)
-        tasksList[indexTask] = task
+    fun upDateTask(isDone: Boolean, newNameTask: String, oldTask: Task) {
+        val indexTask = returnIndexTask(oldTask.id)
+        val updatedTask = tasksList[indexTask].copy(nameTask = newNameTask, isDone = isDone)
+        tasksList = ArrayList(tasksList)
+        tasksList[indexTask] = updatedTask
         notifyChanges()
     }
 

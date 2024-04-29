@@ -4,11 +4,11 @@
 
     <!-- fill task fragment -->
     <string name="save_task_button">Сохранить</string>
-    <string name="remove_task_button">Удалить</string>
+    <string name="clear_task_button">Очистить</string>
     <!-- TODO: Remove or change this placeholder text -->
     <!-- Toast offers  -->
     <string name="task_done">Эта задача уже выполнена</string>
-    <string name="field_empty">Поле уже очищено</string>
+    <string name="empty_field">Поле уже очищено</string>
     <string name="remove_task">Задача удалена</string>
     <!-- decor text -->
     <string name="tip_back_image_button">Назад</string>

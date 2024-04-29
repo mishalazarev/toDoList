@@ -9,6 +9,6 @@ import java.util.*
 )
 data class Task(
     @ColumnInfo(name = "id") @PrimaryKey var id: UUID = UUID.randomUUID(),
-    @ColumnInfo(name = "name_task") var nameTask: String = "",
-    @ColumnInfo(name = "is_done") var isDone: Boolean = false
+    @ColumnInfo(name = "name_task") val nameTask: String = "",
+    @ColumnInfo(name = "is_done") val isDone: Boolean = false
 )

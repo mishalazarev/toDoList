@@ -1,8 +1,14 @@
 package white.ball.todolist.presentation.recycler_view
 
+import android.graphics.Color
+import android.text.Html
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.text.HtmlCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import white.ball.todolist.R
 import white.ball.todolist.databinding.BlockTaskBinding
@@ -16,8 +22,10 @@ class TaskAdapter(
 
     var tasksList: List<Task> = emptyList()
         set(value) {
-        field = value
-        notifyDataSetChanged()
+            val taskDiffUtil = TaskDiffUtil(field, value)
+            val diffResult = DiffUtil.calculateDiff(taskDiffUtil)
+            field = value
+            diffResult.dispatchUpdatesTo(this)
     }
 
     inner class TaskHolder(val binding: BlockTaskBinding) : RecyclerView.ViewHolder(binding.root)
@@ -45,14 +53,24 @@ class TaskAdapter(
             isDoneTaskCheckBox.tag = task
 
             nameTaskTextView.text = task.nameTask
+            nameTaskTextView.gravity = Gravity.CENTER
             isDoneTaskCheckBox.isChecked = task.isDone
 
-
-            if (task.nameTask.isBlank()) {
+            if (task.nameTask.isEmpty()) {
+                nameTaskTextView.textSize = 16f
                 nameTaskTextView.hint = BACKGROUND_TEXT_FOR_EDITH_TEXT
+            } else if (task.isDone && nameTaskTextView.text.isNotEmpty()) {
+                val strikeTextOnHtml = "<strike>${task.nameTask}</strike>"
+                nameTaskTextView.text = HtmlCompat.fromHtml(strikeTextOnHtml, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                nameTaskTextView.textSize = 14f
+                nameTaskTextView.setTextColor(Color.GRAY)
             } else {
                 nameTaskTextView.text = task.nameTask
+                nameTaskTextView.textSize = 16f
+                nameTaskTextView.setTextColor(Color.BLACK)
             }
+
+
         }
     }
 

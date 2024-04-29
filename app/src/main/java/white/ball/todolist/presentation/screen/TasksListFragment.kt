@@ -1,19 +1,18 @@
 package white.ball.todolist.presentation.screen
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import white.ball.todolist.R
 import white.ball.todolist.databinding.FragmentMainBinding
 import white.ball.todolist.domain.contract.TaskActionListener
 import white.ball.todolist.presentation.recycler_view.TaskAdapter
 import white.ball.todolist.presentation.view_model.TasksListViewModel
 import white.ball.todolist.domain.model.Task
-import white.ball.todolist.presentation.recycler_view.TaskAdapter.Companion.TAG
+import white.ball.todolist.presentation.dialog_screen.TaskDetailsDialogFragment
 import white.ball.todolist.presentation.view_model.viewModelCreator
 
 class TasksListFragment : Fragment() {
@@ -46,16 +45,12 @@ class TasksListFragment : Fragment() {
             }
 
             override fun onLaunchDetailsAboutTaskPressed(task: Task) {
-                requireActivity().supportFragmentManager
-                    .beginTransaction()
-                    .addToBackStack(null)
-                    .replace(R.id.container_view, TaskDetailsFragment.newInstance(task.id))
-                    .commit()
+                val detailTaskDialogScreen = TaskDetailsDialogFragment.newInstance(task.id)
+                detailTaskDialogScreen.show(requireActivity().supportFragmentManager, detailTaskDialogScreen.tag)
             }
 
             override fun onUpDateTaskPressed(task: Task) {
-                task.isDone = !task.isDone
-                viewModel.upDateTask(task)
+                viewModel.upDateTask(!task.isDone, task.nameTask, task)
             }
         })
 
@@ -65,7 +60,19 @@ class TasksListFragment : Fragment() {
 
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
+        val itemAnimator = binding.recyclerView.itemAnimator
+
+        if (itemAnimator is DefaultItemAnimator) {
+            itemAnimator.supportsChangeAnimations = false
+        }
+
+
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshDB()
     }
 
     override fun onStop() {
