@@ -10,6 +10,10 @@
     <string name="task_done">Эта задача уже выполнена</string>
     <string name="empty_field">Поле уже очищено</string>
     <string name="remove_task">Задача удалена</string>
-    <!-- decor text -->
-    <string name="tip_back_image_button">Назад</string>
+    <!-- more item text -->
+    <string name="up_item">Вверх</string>
+    <string name="down_item">Вниз</string>
+    <string name="delete_task_item">Удалить</string>
+    <!-- Exceptions -->
+    <string name="incorrect_argument_exception">the argument is wrong</string>
 </resources>

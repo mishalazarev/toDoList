@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -37,6 +38,10 @@ class TaskDetailsDialogFragment : DialogFragment() {
         val dialog = AlertDialog.Builder(requireContext())
 
         with(binding) {
+
+
+            nameTaskTextView.text = viewModel.currentTask.value!!.nameTask
+
             fillTaskEditText.setText(viewModel.currentTask.value?.nameTask)
 
             closeDialogScreenImageButton.setOnClickListener {
@@ -50,10 +55,6 @@ class TaskDetailsDialogFragment : DialogFragment() {
             clearTaskButton.setOnClickListener {
                 clearTask(fillTaskEditText)
             }
-
-//            removeTaskButton.setOnClickListener {
-//                removeTask()
-//            }
         }
 
         return dialog
@@ -71,11 +72,6 @@ class TaskDetailsDialogFragment : DialogFragment() {
 
     private fun saveChangeTask() {
         viewModel.saveChangeTask(viewModel.currentTask.value!!.isDone ,binding.fillTaskEditText.text.toString())
-        dismiss()
-    }
-
-    private fun removeTask() {
-        viewModel.removeTask()
         dismiss()
     }
 

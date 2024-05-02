@@ -1,12 +1,12 @@
 package white.ball.todolist.presentation.recycler_view
 
+import android.content.Context
 import android.graphics.Color
-import android.text.Html
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.PopupMenu
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +17,8 @@ import white.ball.todolist.domain.contract.TaskActionListener
 
 
 class TaskAdapter(
-    private val taskActionListener: TaskActionListener
+    private val context: Context,
+    private val taskActionListener: TaskActionListener,
 ) : RecyclerView.Adapter<TaskAdapter.TaskHolder>(), View.OnClickListener {
 
     var tasksList: List<Task> = emptyList()
@@ -35,7 +36,7 @@ class TaskAdapter(
         val binding = BlockTaskBinding.inflate(inflater, parent, false)
 
         binding.root.setOnClickListener(this)
-        binding.deleteTaskImageButton.setOnClickListener(this)
+        binding.moreTaskImageButton.setOnClickListener(this)
         binding.isDoneTaskCheckBox.setOnClickListener(this)
 
         return TaskHolder(binding)
@@ -49,7 +50,7 @@ class TaskAdapter(
         holder.binding.apply {
             blockTaskLayout.tag = task
             nameTaskTextView.tag = task
-            deleteTaskImageButton.tag = task
+            moreTaskImageButton.tag = task
             isDoneTaskCheckBox.tag = task
 
             nameTaskTextView.text = task.nameTask
@@ -59,6 +60,7 @@ class TaskAdapter(
             if (task.nameTask.isEmpty()) {
                 nameTaskTextView.textSize = 16f
                 nameTaskTextView.hint = BACKGROUND_TEXT_FOR_EDITH_TEXT
+
             } else if (task.isDone && nameTaskTextView.text.isNotEmpty()) {
                 val strikeTextOnHtml = "<strike>${task.nameTask}</strike>"
                 nameTaskTextView.text = HtmlCompat.fromHtml(strikeTextOnHtml, HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -78,10 +80,44 @@ class TaskAdapter(
         val task: Task = view.tag as Task
 
         when (view.id) {
-            R.id.delete_task_image_button -> taskActionListener.onRemoveTaskPressed(task)
+            R.id.more_task_image_button -> showMenu(task, view)
             R.id.is_done_task_check_box -> taskActionListener.onUpDateTaskPressed(task)
             else -> taskActionListener.onLaunchDetailsAboutTaskPressed(task)
         }
+    }
+
+    private fun showMenu(task: Task, taskView: View) {
+        val menu = PopupMenu(context, taskView)
+        menu.inflate(R.menu.main_menu)
+        val taskIndex = tasksList.indexOf(task)
+
+        menu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.up_item -> {
+                    taskActionListener.onUpTaskPressed(task)
+                    true
+                }
+                R.id.delete_task_item -> {
+                    taskActionListener.onDeleteTaskPressed(task)
+                    true
+                }
+                R.id.down_item -> {
+                    taskActionListener.onDownTaskPressed(task)
+                    true
+                }
+                else -> {
+                    throw IllegalArgumentException(context.getString(R.string.incorrect_argument_exception))
+                }
+            }
+        }
+
+        if (taskIndex == tasksList.size - 1) {
+            menu.menu.removeItem(R.id.down_item)
+        } else if (taskIndex == 0) {
+            menu.menu.removeItem(R.id.up_item)
+        }
+
+        menu.show()
     }
 
     companion object {

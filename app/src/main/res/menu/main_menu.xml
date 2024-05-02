@@ -2,8 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/back_image_view"
-        android:icon="@drawable/icon_close_default"
-        android:title="@string/tip_back_image_button"
-        app:showAsAction="ifRoom|withText" />
+        android:id="@+id/up_item"
+        android:title="@string/up_item"
+        app:showAsAction="withText"/>
+    <item
+        android:id="@+id/delete_task_item"
+        android:title="@string/delete_task_item"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/down_item"
+        android:title="@string/down_item"
+        app:showAsAction="withText" />
 </menu>

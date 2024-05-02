@@ -35,6 +35,20 @@ class TasksService(
         notifyChanges()
     }
 
+    fun upTask(task: Task) {
+        val taskIndex = tasksList.indexOf(task)
+        tasksList = ArrayList(tasksList)
+        Collections.swap(tasksList, taskIndex - 1, taskIndex)
+        notifyChanges()
+    }
+
+    fun downTask(task: Task) {
+        val taskIndex = tasksList.indexOf(task)
+        tasksList = ArrayList(tasksList)
+        Collections.swap(tasksList, taskIndex + 1, taskIndex)
+        notifyChanges()
+    }
+
     fun removeTask(task: Task): Boolean {
         val indexTask = returnIndexTask(task.id)
         tasksList = ArrayList(tasksList)

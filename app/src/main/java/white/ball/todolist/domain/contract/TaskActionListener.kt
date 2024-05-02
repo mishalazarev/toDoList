@@ -6,7 +6,11 @@ interface TaskActionListener {
 
     fun onAddTaskPressed()
 
-    fun onRemoveTaskPressed(task: Task)
+    fun onUpTaskPressed(task: Task)
+
+    fun onDownTaskPressed(task: Task)
+
+    fun onDeleteTaskPressed(task: Task)
 
     fun onLaunchDetailsAboutTaskPressed(task: Task)
 

@@ -27,6 +27,14 @@ class TasksListViewModel(
         taskService.createTask()
     }
 
+    fun upTask(task: Task) {
+        taskService.upTask(task)
+    }
+
+    fun downTask(task: Task) {
+        taskService.downTask(task)
+    }
+
     fun removeTask(task: Task) {
         taskService.removeTask(task)
     }
